@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'commons/head-base.html' %}
+<![endif]-->
+</head>
+
+<body class="fix-header card-no-border fix-sidebar">
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper" class="error-page">
+        <div class="error-box">
+            <div class="error-body text-center" style="padding-top: 40px">
+                <h3 class="text-uppercase">Login Required!</h3>
+                <p class="text-muted m-t-30 m-b-30">YOU SEEM TO BE TRYING TO FIND HIS WAY HOME</p>
+                <form method="POST" action="/auth/login" style="max-width: 500px !important; margin: 40px auto;">
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input class="form-control" id="username" name="username" placeholder="Enter username">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                  </div>
+                    <button type="submit" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40">Login</button>
+                </form>
+            </div>
+            <footer class="footer text-center">© 2017 Admin Pro.</footer>
+        </div>
+    </section>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/static/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/static/lite/js/waves.js"></script>
+</body>
+
+</html>

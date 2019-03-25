@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  yesti_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: db_gigi
+      POSTGRES_DB: db_gigi
+      POSTGRES_USER: db_gigi
+    ports:
+      - "5432:5432"
+
+  yesti-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block headContent %}
+        {% include 'commons/head-base.html' %}
+    {% endblock %}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    {% include 'commons/preloader.html' %}
+
+
+    <div id="main-wrapper">
+
+        {% include 'commons/header-base.html' %}
+        {% include 'commons/aside-base.html' %}
+
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h3 class="text-themecolor">
+                            {% block pageTitle %}
+                                Dashboard
+                            {% endblock %}
+                        </h3>
+                    </div>
+                    <div class="col-md-7 align-self-center">
+                        {% block actions %}
+                            <!--<a href="https://wrappixel.com/templates/adminpro" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down"> Upgrade to Pro</a>-->
+                        {% endblock %}
+                    </div>
+                </div>
+                {% block mainContent %}
+                {% endblock %}
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+            <footer class="footer"> © 2017 Admin Pro by wrappixel.com </footer>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {% block scripts %}
+        {% include 'commons/scripts-base.html' %}
+    {% endblock %}
+</body>
+
+</html>

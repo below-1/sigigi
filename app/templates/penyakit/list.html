@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Data Penyakit
+{% endblock %}
+
+{% block actions %}
+    <a href="/admin/diseases/create" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Tambah Penyakit</a>
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Penyakit</th>
+                                <th>Keterangan</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                                <tr>
+                                    <td>{{ row.id }}</td>
+                                    <td>{{ row.nama }}</td>
+                                    <td>{{ row.keterangan }}</td>
+                                    <td>
+                                        <a href="/admin/diseases/update/{{ row.id }}" type="button" class="btn btn-info btn-sm">
+                                            <i class="mdi mdi-grease-pencil"></i>
+                                        </a>
+                                        <a href="/admin/diseases/delete/{{ row.id }}" type="button" class="btn btn-danger btn-sm">
+                                            <i class="mdi mdi-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

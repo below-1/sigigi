@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block headContent %}
+    {{ super() }}
+    <link href="/static/assets/custom/create-rule.css" rel="stylesheet">
+{% endblock %}
+
+{% block pageTitle %}
+    Update Data Aturan
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    {% raw %}
+    <div class="col-md-8">
+        <div class="card" id="main-card">
+            <div class="card-body">
+                <h4 class="card-title">Ubah data Aturan</h4>
+                <form method="POST" action="/admin/rules/create">
+
+                  <div class="form-group">
+                      <label>Penyakit</label>
+                      <select class="form-control" v-model="selectedPenyakitId">
+                          <option v-for="penyakit in listPenyakit" :key="`penyakit-option-${penyakit.id}`" v-bind:value="penyakit.id">
+                            {{ penyakit.nama }}
+                          </option>
+                      </select>
+                  </div>
+
+                    <ul class="list-group">
+                        <li v-for="g in listGejala" :key="`gejala-${g.id}`" class="list-group-item row-list form-group">
+                            <label>
+                                <input type="checkbox" class="form-check-input" v-model="g.selected" style="margin-left: 10px;" />
+                                {{ g.nama }}
+                            </label>
+                            <input type="number" class="form-control" min=0 max=0 step=0.01 v-model="g.weight" />
+                        </li>
+                    </ul>
+
+                    <button type="button" v-on:click="saveRule" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40 my-4">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="/static/assets/custom/vue.js" ></script>
+    <script src="/static/assets/custom/update-rule.js" ></script>
+    <script>
+        var VUE_ID_RULE = {{id}};
+    </script>
+{% endblock %}

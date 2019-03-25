@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Data Aturan
+{% endblock %}
+
+{% block actions %}
+    <a href="/admin/rules/create" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Tambah Aturan</a>
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Penyakit</th>
+                                <th>Gejala</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td>
+                                    <h4>{{ row.penyakit.nama }}</h4>
+                                </td>
+                                <td>
+                                    <ul class="list-group">
+                                        {% for slot in row.slots %}
+                                        <li class="list-group-item">
+                                            <div class="font-normal">{{ slot.gejala.nama }}</div>
+                                            <div style="float: right;">
+                                                {{ slot.weight }}
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <a href="/admin/rules/update/{{ row.id }}" type="button" class="btn btn-info btn-sm">
+                                        <i class="mdi mdi-grease-pencil"></i>
+                                    </a>
+                                    <a href="/admin/rules/delete/{{ row.id }}" type="button" class="btn btn-danger btn-sm">
+                                        <i class="mdi mdi-delete"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
