@@ -1,7 +1,8 @@
-.env
 .idea
-__pycache__
+.directory
+.env
 env/
+__pycache__
 data.sql
 data-remote.sql
 restore-remote.txt
