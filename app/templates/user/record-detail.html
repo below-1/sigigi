@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Detail Pasien
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div>
+                        <h2 class="card-title"><span class="lstick"></span>Detail Rekam Medik {{ record.id }}</h2>
+                        <h3>Pasien {{ pasien.nama }}</h3>
+                        <a href="/admin/user/{{pasien.id}}/records/{{record.id}}/delete" class="btn btn-danger">
+                            Hapus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><span class="lstick"></span>Daftar Gejala</h4>
+                <ul class="list-group">
+                    {% for gejala in list_gejala %}
+                        <li class="list-group-item">
+                            {{ gejala.nama }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center py-4" style="min-height: 300px;">
+                <h1>
+                    {{ penyakit.nama }}
+                </h1>
+                <h3>
+                    Tingkat kepercayaan: {{ "{:.2%}".format( record.meta['believe'] ) }}
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

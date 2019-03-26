@@ -1,7 +1,7 @@
 from app.config import DEBUG
 import json
 
-def vucr(rules, list_gejala_id):
+def initial_vcirs(rules):
 
     non_counter = {}
     vucr = []
@@ -16,8 +16,6 @@ def vucr(rules, list_gejala_id):
     # Initialize non_counter
     for gejala_id in set_gejala:
         non_counter[gejala_id] = 0
-
-    # print('non_counter=', non_counter)
 
     for rule in rules:
 
@@ -51,19 +49,6 @@ def vucr(rules, list_gejala_id):
 
         vucr.append(rule_data)
 
-    # Bayes step
-    for rule_data in vucr:
-        slots = rule_data['slots']
-        t1 = [ slot['weight'] for slot in slots ]
-        total_t1 = sum(t1)
-        t2 = [ _t1 / total_t1 for _t1 in t1 ]
-        t3 = [ _t1 * _t2 for (_t1, _t2) in zip(t1, t2) ]
-        total_t3 = sum(t3)
-        t4 = [ (_t1 * _t2) / total_t3 for (_t1, _t2) in zip(t1, t2) ]
-        t5 = [ _t1 * _t4 for (_t1, _t4) in zip(t1, t4) ]
-        believe = sum(t5)
-        rule_data['believe'] = believe
-
     for rule_data in vucr:
         slots = rule_data['slots']
 
@@ -95,6 +80,15 @@ def vucr(rules, list_gejala_id):
 
         rule_data['total_vur'] = total_vur
         rule_data['total_vur_norm'] = total_vur_norm
+
+
+    if DEBUG: print(json.dumps(vucr, indent=4))
+
+    return vucr, non_counter
+
+def vucr(rules, list_gejala_id):
+
+    vucr, non_counter = initial_vcirs(rules)
 
     for gejala_id in list_gejala_id:
         for rule_data in vucr:
@@ -155,11 +149,35 @@ def vucr(rules, list_gejala_id):
     #     rule_data['total_credit'] = total_credit
     #     rule_data['total_credit_norm'] = total_credit_norm
 
+    # Bayes step
+    penyakit_id = None
+    max_believe = -1
+    for rule_data in vucr:
+        slots = rule_data['slots']
+        t1 = [ slot['weight'] for slot in slots if slot['gejala_id'] in list_gejala_id ]
+
+        if len(t1) == 0:
+            rule_data['believe'] = 0
+            continue
+
+        total_t1 = sum(t1)
+        t2 = [_t1 / total_t1 for _t1 in t1]
+        t3 = [_t1 * _t2 for (_t1, _t2) in zip(t1, t2)]
+        total_t3 = sum(t3)
+        t4 = [(_t1 * _t2) / total_t3 for (_t1, _t2) in zip(t1, t2)]
+        t5 = [_t1 * _t4 for (_t1, _t4) in zip(t1, t4)]
+        believe = sum(t5)
+        if believe > max_believe:
+            max_believe = believe
+            penyakit_id = rule_data['penyakit']
+        rule_data['believe'] = believe
+
     if DEBUG: print(json.dumps(vucr, indent=4))
 
     result = {
         'vucr': vucr,
-        'penyakit_id': penyakit_id
+        'penyakit_id': penyakit_id,
+        'believe': max_believe
     }
 
 

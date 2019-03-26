@@ -1,11 +1,12 @@
 # Import what we need
 import json
 from flask import (
-    Blueprint, flash, g, redirect, render_template,
-    request, session, url_for, jsonify, current_app,
+    Blueprint, g,
+    request,
     Response
 )
-from ..model import Gejala, Penyakit, User, MedicRecord, dbsession_required, Rule
+from app.model import Gejala, Penyakit, dbsession_required, Rule
+from app.computation.vucr import initial_vcirs
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -103,6 +104,40 @@ def penyakit_create():
     )
 
     return response
+
+@api.route('/vcirs/gejala')
+@dbsession_required
+def get_Gejala_Vcirs():
+    dbsession = g.get('dbsession')
+    rules = dbsession.query(Rule).all()
+
+    # Get initial vicrs
+    vcirs, _ = initial_vcirs(rules)
+
+    gejala_id_set = set()
+    gejala_id_list = []
+
+    # Sort vcirs by nur
+    vcirs_sorted = sorted(vcirs, key=lambda vcir : vcir['rur'])
+
+    for rule_data in vcirs_sorted:
+        for slot in rule_data['slots']:
+            gejala_id = slot['gejala_id']
+
+            if gejala_id in gejala_id_set: continue
+
+            gejala_id_set.add(gejala_id)
+            gejala_id_list.append(gejala_id)
+
+    all_gejala = dbsession.query(Gejala).all()
+    all_gejala_sorted = sorted(all_gejala, key=lambda gejala: gejala_id_list.index(gejala.id))
+    gejala_dict = [ gejala.as_dict() for gejala in all_gejala_sorted ]
+    response = Response(
+        response=json.dumps(gejala_dict),
+        mimetype='application/json'
+    )
+    return response
+
 
 @api.route('/rules/<id>')
 @dbsession_required

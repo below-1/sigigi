@@ -76,10 +76,10 @@ def diagnosa_user(id):
     if request.method == 'GET':
         return render_template('user/diagnosa.html', user_id=id)
 
-    content = request.json
-
     dbsession = g.get('dbsession')
     rules = dbsession.query(Rule).all()
+    content = request.json
+
     print('content=', content)
     gejala_list = content['gejala']
     list_gejala_id = [ gejala['id'] for gejala in gejala_list ]
@@ -109,3 +109,28 @@ def diagnosa_user(id):
         status=200
     )
     return response
+
+
+@admin.route(f"{PREFIX}/<id_user>/record/detail/<id_record>", methods=['GET', 'POST'])
+@dbsession_required
+def user_record_detail(id_user, id_record):
+    dbsession = g.get('dbsession')
+
+    pasien = dbsession.query(User).filter(User.id == id_user).first()
+    if not pasien: raise Exception(f"Can't find pasien with id({id_user})")
+
+    record = dbsession.query(MedicRecord).filter(MedicRecord.id == id_record).first()
+    if not record: raise Exception(f"Can't find record with id({id_record})")
+
+    list_gejala = [ _record_gejala.gejala for _record_gejala in record.list_gejala ]
+
+    penyakit_id = record.meta['penyakit_id']
+    penyakit = dbsession.query(Penyakit).filter(Penyakit.id == penyakit_id).first()
+    if not penyakit: raise Exception(f"Can't find penyakit with id({penyakit_id})")
+
+    return render_template('user/record-detail.html',
+                            pasien=pasien,
+                            list_gejala=list_gejala,
+                            penyakit=penyakit,
+                            record=record
+                           )

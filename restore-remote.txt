@@ -1,0 +1,1 @@
+sudo docker exec docker_yesti_db_1 psql -u ngqfeibz -h isilo.db.elephantsql.com -f data.sql -d ngqfeibz

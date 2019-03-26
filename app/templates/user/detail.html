@@ -36,9 +36,10 @@
                     <table class="table vm no-th-brd no-wrap pro-of-month">
                         <thead>
                             <tr>
-                                <th colspan="2">Id</th>
+                                <th>Id</th>
                                 <th>Waktu</th>
                                 <th>Hasil Diagnosa</th>
+                                <th>Tingkat Kepercayaan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -54,9 +55,12 @@
                                         <h6>{{ record_penyakit_list[loop.index0].nama }}</h6>
                                     </td>
                                     <td>
-                                        <button class="btn btn-info">
+                                        <h6>{{ "{:.2%}".format(record.meta['believe']) }} %</h6>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/users/{{data.id}}/record/detail/{{record.id}}" class="btn btn-info">
                                             Detail
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
