@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Detail Pasien
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4>Detail User #{{ data.id }} - {{ data.nama }}</h4>
+                <h5>Alamat : Jl. Soekarno</h5>
+                <div class="btn-toolbar">
+                    <div class="btn-group mr-2">
+                        <a href="/admin/users/diagnosa/{{data.id}}" class="btn btn-info">Diagnosa</a>
+                        <button class="btn btn-primary">Update</button>
+                        <button class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- column -->
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div>
+                        <h4 class="card-title"><span class="lstick"></span>Rekam Medik Pasien</h4></div>
+                </div>
+                <div class="table-responsive m-t-20">
+                    <table class="table vm no-th-brd no-wrap pro-of-month">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Id</th>
+                                <th>Waktu</th>
+                                <th>Hasil Diagnosa</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                                <tr>
+                                    <td style="width:50px;">
+                                        #{{ record.id }}
+                                    </td>
+                                    <td>
+                                        <h6>{{ record.waktu }}</h6></td>
+                                    <td>
+                                        <h6>{{ record_penyakit_list[loop.index0].nama }}</h6>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

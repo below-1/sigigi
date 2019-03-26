@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Data Pasien
+{% endblock %}
+
+{% block actions %}
+    <a href="/admin/users/create" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Tambah Pasien</a>
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Pasien</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                                <tr>
+                                    <td>{{ row.id }}</td>
+                                    <td>{{ row.nama }}</td>
+                                    <td>
+                                        <a href="/admin/users/detail/{{ row.id }}" type="button" class="btn btn-primary btn-sm">
+                                            <i class="mdi mdi-bike"></i>
+                                        </a>
+                                        <a href="/admin/users/update/{{ row.id }}" type="button" class="btn btn-info btn-sm">
+                                            <i class="mdi mdi-grease-pencil"></i>
+                                        </a>
+                                        <a href="/admin/users/delete/{{ row.id }}" type="button" class="btn btn-danger btn-sm">
+                                            <i class="mdi mdi-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

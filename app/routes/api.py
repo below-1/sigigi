@@ -110,6 +110,7 @@ def get_Rule_Data(id: int):
     dbsession = g.get('dbsession')
     rule = dbsession.query(Rule).filter(Rule.id == id).first()
     rule_slots = rule.slots
+    print('rule_slots=', rule_slots)
 
     all_gejala = dbsession.query(Gejala).filter(Gejala.deleted == False).all()
     all_penyakit = dbsession.query(Penyakit).filter(Penyakit.deleted == False).all()
@@ -127,11 +128,13 @@ def get_Rule_Data(id: int):
     for gejala in all_gejala:
         gej_dict = gejala.as_dict()
         gej_dict['weight'] = 0
+        gej_dict['vorder'] = 0
         gej_dict['selected'] = False
         for slot in rule_slots:
             if slot.gejala_id == gejala.id:
                 gej_dict['weight'] = slot.weight
                 gej_dict['selected'] = True
+                gej_dict['vorder'] = slot.vorder
                 break
         list_gejala.append(gej_dict)
 

@@ -13,7 +13,7 @@
 <div class="row">
     <!-- column -->
     {% raw %}
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card" id="main-card">
             <div class="card-body">
                 <h4 class="card-title">Ubah data Aturan</h4>
@@ -28,15 +28,46 @@
                       </select>
                   </div>
 
-                    <ul class="list-group">
-                        <li v-for="g in listGejala" :key="`gejala-${g.id}`" class="list-group-item row-list form-group">
-                            <label>
-                                <input type="checkbox" class="form-check-input" v-model="g.selected" style="margin-left: 10px;" />
-                                {{ g.nama }}
-                            </label>
-                            <input type="number" class="form-control" min=0 max=0 step=0.01 v-model="g.weight" />
-                        </li>
-                    </ul>
+                        <table class="table table-responsive table-small">
+                            <thead>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        Nama
+                                    </td>
+                                    <td>
+                                        Bobot
+                                    </td>
+                                    <td>
+                                        Order
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="g in listGejala" :key="`gejala-${g.id}`">
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="form-check-input"
+                                                   v-on:change="selectGejala($event, g.id)"
+                                                   v-bind:checked="g.selected"
+                                                   style="margin-left: 10px;"
+                                            />
+                                        </label>
+                                    </td>
+                                    <td>
+                                        {{ g.nama }}
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" min=0 max=0 step=0.01 v-model="g.weight" />
+                                    </td>
+                                    <td>
+                                        <input type="number" min="0" class="form-control" v-model="g.vorder" placeholder="vorder" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                     <button type="button" v-on:click="saveRule" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40 my-4">Simpan</button>
                 </form>

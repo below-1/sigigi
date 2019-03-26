@@ -7,16 +7,35 @@ $(document).ready(function () {
             listGejala: [],
             selectedPenyakitId: null
         },
+        computed: {
+            totalSelected () {
+                return this.listGejala.filter(gejala => gejala.selected).length
+            }
+        },
         mounted () {
             if (!VUE_ID_RULE) {
                 alert("Terjadi kesalahan. ID Rule tidak ditemukan")
                 throw new Error("ID RULE IS UNDEFINED")
             }
             this.loadData(VUE_ID_RULE)
-            alert('HERE')
             console.log(VUE_ID_RULE)
         },
         methods: {
+
+            selectGejala (event, id) {
+//                console.log(event.target.checked)
+                var gejala = this.listGejala.find(gejala => gejala.id == id)
+                if (!gejala) return
+                var selected = event.target.selected
+                if (!selected) {
+                    var totalSelected = this.totalSelected
+                    gejala.selected = true
+                    gejala.vorder = totalSelected + 2
+                } else {
+                    gejala.selected = false
+                    gejala.vorder = 0
+                }
+            },
 
             loadData (id) {
                 return fetch(`/api/rules/${id}`)

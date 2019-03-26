@@ -12,6 +12,7 @@ from app.config import DATABASE_URI
 from app.model.base import Base
 from app.model.Gejala import Gejala
 from app.model.GejalaSlot import GejalaSlot
+from app.model.GejalaMedicRecord import GejalaMedicRecord
 from app.model.Penyakit import Penyakit
 from app.model.User import User
 from app.model.Rule import Rule

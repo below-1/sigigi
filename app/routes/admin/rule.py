@@ -99,7 +99,8 @@ def update_rule(id):
             if not _dict['selected']: continue
             new_slot = GejalaSlot(
                 gejala_id=int(_dict['id']),
-                weight=float(_dict['weight'])
+                weight=float(_dict['weight']),
+                vorder=int(_dict['vorder'])
             )
             slot_list.append(new_slot)
 

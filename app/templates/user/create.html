@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Tambah Data Pasien
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Input data Pasien</h4>
+                <form method="POST" action="/admin/users/create">
+                  <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input class="form-control" id="nama" name="nama" placeholder="Nama Pasien">
+                  </div>
+
+                    <button type="submit" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
