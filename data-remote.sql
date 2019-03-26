@@ -1,3 +1,4 @@
+
 -- Adminer 4.7.1 PostgreSQL dump
 
 DROP TABLE IF EXISTS "gejala";
