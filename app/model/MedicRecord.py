@@ -3,16 +3,16 @@ from sqlalchemy import Integer
 from sqlalchemy import  Text
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
-from sqlalchemy import JSON
 from sqlalchemy.orm import relationship
 from .base import Base
+import json
 
 class MedicRecord(Base):
     __tablename__ = 'medic_record'
     id = Column(Integer, primary_key=True)
     waktu = Column(DateTime)
     keterangan = Column(Text)
-    meta = Column(JSON)
+    meta = Column(Text)
 
     user_id = Column(Integer, ForeignKey("user.id"))
     user = relationship("User", back_populates="records")

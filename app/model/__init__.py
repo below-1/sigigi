@@ -32,10 +32,10 @@ def init_db():
     print(DATABASE_URI)
     print(Base.metadata.create_all(_engine))
     dbsession = _create_session()
-    phash = generate_password_hash('user')
+    phash = generate_password_hash('admin')
     admin = User(
-        username='user',
-        role='user',
+        username='admin',
+        role='admin',
         password=phash
     )
     dbsession.add(admin)
