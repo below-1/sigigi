@@ -11,6 +11,7 @@ from flask import Response
 
 from app.model.User import User
 from app.model.Rule import Rule
+from app.model.Gejala import Gejala
 from app.model.Penyakit import Penyakit
 from app.model.MedicRecord import MedicRecord
 from app.model.GejalaMedicRecord import GejalaMedicRecord
@@ -27,7 +28,6 @@ def list_user():
         .filter(User.role != 'admin')\
         .join(MedicRecord, isouter=True)\
         .all()
-    print(data)
     return render_template('user/list.html', data=data)
 
 @admin.route(f"{PREFIX}/create", methods=['GET', 'POST'])
@@ -76,8 +76,7 @@ def detail_user(id):
     list_penyakit = dbsession.query(Penyakit).all()
     record_penyakit_list = []
     for record in records:
-        print('record_meta', record.meta)
-        penyakit_id = record.meta['penyakit_id']
+        penyakit_id = record.meta_dict['penyakit_id']
         for penyakit in list_penyakit:
             if penyakit.id == penyakit_id:
                 record_penyakit_list.append(penyakit)
@@ -109,7 +108,6 @@ def diagnosa_user(id):
     rules = dbsession.query(Rule).all()
     content = request.json
 
-    print('content=', content)
     gejala_list = content['gejala']
     list_gejala_id = [ gejala['id'] for gejala in gejala_list ]
 
@@ -148,13 +146,18 @@ def user_record_detail(id_user, id_record):
 
     pasien = dbsession.query(User).filter(User.id == id_user).first()
     if not pasien: raise Exception(f"Can't find pasien with id({id_user})")
+    all_penyakit = dbsession.query(Penyakit).filter_by(deleted=False).all()
+    all_gejala = dbsession.query(Gejala).filter_by(deleted=False).all()
+
+    lookup_penyakit = lambda id: next(p for p in all_penyakit if p.id == id)
+    lookup_gejala = lambda id: next(g for g in all_gejala if g.id == id)
 
     record = dbsession.query(MedicRecord).filter(MedicRecord.id == id_record).first()
     if not record: raise Exception(f"Can't find record with id({id_record})")
 
     list_gejala = [ _record_gejala.gejala for _record_gejala in record.list_gejala ]
 
-    penyakit_id = record.meta['penyakit_id']
+    penyakit_id = record.meta_dict['penyakit_id']
     penyakit = dbsession.query(Penyakit).filter(Penyakit.id == penyakit_id).first()
     if not penyakit: raise Exception(f"Can't find penyakit with id({penyakit_id})")
 
@@ -162,7 +165,9 @@ def user_record_detail(id_user, id_record):
                             pasien=pasien,
                             list_gejala=list_gejala,
                             penyakit=penyakit,
-                            record=record
+                            record=record,
+                           lookup_gejala=lookup_gejala,
+                           lookup_penyakit=lookup_penyakit
                            )
 
 @admin.route(f"{PREFIX}/<id_user>/record/delete/<id_record>")

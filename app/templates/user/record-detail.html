@@ -51,4 +51,55 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><span class="lstick"></span>Tabel Perubahan Nilai</h4>
+                <ul class="list-group">
+                    {% for vi in record.meta_dict.vucr %}
+                    <li class="list-group-item">
+                        <div class="card">
+                            <div class="card-header">Penyakit: {{ lookup_penyakit(vi.penyakit).nama }}</div>
+                        </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>ID Gejala</td>
+                                        <td>VUR</td>
+                                        <td>VUR Norm.</td>
+                                        <td>NUR</td>
+                                        <td>RUR</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for slot in vi.slots %}
+                                        <tr>
+                                            <td>
+                                               # {{ slot.gejala_id }}
+                                            </td>
+                                            <td>
+                                                {{ slot.vur }}
+                                            </td>
+                                            <td>
+                                                {{ slot.vur_norm }}
+                                            </td>
+                                            <td>
+                                                {{ vi.nur }}
+                                            </td>
+                                            <td>
+                                                {{ vi.rur }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
