@@ -9,7 +9,8 @@ from app.computation.vucr import vucr
 @user_bp.route('/')
 @user_required
 def home():
-    return render_template("user/index.html")
+    return render_template("home/index.html")
+
 
 @user_bp.route('/diagnosa', methods=['GET', 'POST'])
 @user_required

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block pageTitle %}
+    Edit Data Pasien
+{% endblock %}
+
+{% block mainContent %}
+<div class="row">
+    <!-- column -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Input data Pasien</h4>
+                <form method="POST" action="/admin/users/update/{{data.id}}" class="form-horizontal form-material">
+                  <div class="form-group">
+                    <input class="form-control" id="nama" name="nama" placeholder="Nama Pasien" value="{{data.nama}}">
+                  </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-line" id="alamat" name="alamat" placeholder="Alamat" value="{{data.alamat}}">
+                      </div>
+
+                      <label>Jenis Kelamin</label>
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          <input type="radio"
+                                 {% if data.jk %} checked {% endif %}
+                                 id="jk_laki_laki" name="jk" class="custom-control-input" value="laki_laki">
+                          <label class="custom-control-label" for="jk_laki_laki">Laki - Laki</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input
+                                  {% if not data.jk %} checked {% endif %}
+                                  type="radio" id="jk_perempuan" name="jk" value="perempuan" class="custom-control-input">
+                          <label class="custom-control-label" for="jk_perempuan">Perempuan</label>
+                        </div>
+                      </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-line" id="umur" name="umur" placeholder="Umur" type="number" min="0" max="100" value="{{data.umur}}">
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

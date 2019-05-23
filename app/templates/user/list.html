@@ -20,20 +20,21 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Pasien</th>
+                                <th>Total Kunjungan</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for row in data %}
                                 <tr>
-                                    <td>{{ row.id }}</td>
-                                    <td>{{ row.nama }}</td>
+                                    <td width="5%">{{ row.id }}</td>
+                                    <td class="font-weight-bold">{{ row.nama }}</td>
                                     <td>
+                                        {{row.records|length}}
+                                    </td>
+                                    <td class="text-sm-right">
                                         <a href="/admin/users/detail/{{ row.id }}" type="button" class="btn btn-primary btn-sm">
                                             <i class="mdi mdi-bike"></i>
-                                        </a>
-                                        <a href="/admin/users/update/{{ row.id }}" type="button" class="btn btn-info btn-sm">
-                                            <i class="mdi mdi-grease-pencil"></i>
                                         </a>
                                         <a href="/admin/users/delete/{{ row.id }}" type="button" class="btn btn-danger btn-sm">
                                             <i class="mdi mdi-delete"></i>

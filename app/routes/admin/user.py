@@ -23,7 +23,11 @@ PREFIX = '/users'
 @dbsession_required
 def list_user():
     dbsession = g.get('dbsession')
-    data = dbsession.query(User).filter(User.role != 'admin').all()
+    data = dbsession.query(User)\
+        .filter(User.role != 'admin')\
+        .join(MedicRecord, isouter=True)\
+        .all()
+    print(data)
     return render_template('user/list.html', data=data)
 
 @admin.route(f"{PREFIX}/create", methods=['GET', 'POST'])
@@ -33,11 +37,35 @@ def create_user():
         return render_template('user/create.html')
 
     nama = request.form['nama']
-    user = User(nama=nama, role='user', username=nama)
+    alamat = request.form['alamat']
+    jk = request.form['jk'] == 'laki_laki'
+    umur = int(request.form['umur'])
+    user = User(nama=nama, role='user', username=nama, alamat=alamat, jk=jk, umur=umur)
     dbsession = g.get('dbsession')
     dbsession.add(user)
     dbsession.commit()
     return redirect(url_for('admin.list_user'))
+
+@admin.route(f"{PREFIX}/update/<id>", methods=['GET', 'POST'])
+@dbsession_required
+def update_user(id):
+    dbsession = g.get('dbsession')
+    user = dbsession.query(User).filter(User.id == id).first()
+
+    if request.method == 'GET':
+        return render_template('user/update.html', data=user)
+
+    nama = request.form['nama']
+    alamat = request.form['alamat']
+    jk = request.form['jk'] == 'laki_laki'
+    umur = int(request.form['umur'])
+    user.nama = nama
+    user.alamat = alamat
+    user.jk = jk
+    user.umur = umur
+    dbsession.add(user)
+    dbsession.commit()
+    return redirect(url_for('admin.detail_user', id=id))
 
 @admin.route(f"{PREFIX}/detail/<id>", methods=['GET', 'POST'])
 @dbsession_required
@@ -85,6 +113,7 @@ def diagnosa_user(id):
     list_gejala_id = [ gejala['id'] for gejala in gejala_list ]
 
     result = vucr(rules, list_gejala_id)
+    result_str = json.dumps(result)
 
     medic_record_gejala = [
         GejalaMedicRecord(
@@ -96,7 +125,7 @@ def diagnosa_user(id):
     # Create medic record
     medic_record = MedicRecord(
         waktu=datetime.datetime.now(),
-        meta=result,
+        meta=result_str,
         user_id=id,
         list_gejala=medic_record_gejala
     )
@@ -134,3 +163,19 @@ def user_record_detail(id_user, id_record):
                             penyakit=penyakit,
                             record=record
                            )
+
+@admin.route(f"{PREFIX}/<id_user>/record/delete/<id_record>")
+@dbsession_required
+def user_record_delete(id_user, id_record):
+    dbsession = g.get('dbsession')
+    dbsession.query(MedicRecord).filter_by(id=id_record).delete()
+    dbsession.commit()
+    return redirect(f"/admin/users/detail/{id_user}")
+
+@admin.route(f"{PREFIX}/delete/<id_user>", methods=['GET', 'POST'])
+@dbsession_required
+def user_delete (id_user):
+    dbsession = g.get('dbsession')
+    dbsession.query(User).filter_by(id=id_user).delete()
+    dbsession.commit()
+    return redirect(url_for("admin.list_user"))

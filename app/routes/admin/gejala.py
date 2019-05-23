@@ -16,7 +16,7 @@ PREFIX = '/symptoms'
 @dbsession_required
 def list_gejala():
     dbsession = g.get('dbsession')
-    data = dbsession.query(Gejala).filter(Gejala.deleted == False).all()
+    data = dbsession.query(Gejala).filter(Gejala.deleted == False).order_by(Gejala.nama).all()
     return render_template('gejala/list.html', data=data)
 
 @admin.route(f"{PREFIX}/create", methods=['GET', 'POST'])
@@ -47,6 +47,8 @@ def delete_gejala(id):
     dbsession.commit()
     return redirect(url_for('admin.list_gejala'))
 
+@admin.route(f"{PREFIX}/update/<id>", methods=['GET', 'POST'])
+@dbsession_required
 def update_gejala(id):
     dbsession = g.get('dbsession')
     if request.method == 'GET':

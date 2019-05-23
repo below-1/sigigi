@@ -11,13 +11,32 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Input data Pasien</h4>
-                <form method="POST" action="/admin/users/create">
+                <form method="POST" action="/admin/users/create" class="form-horizontal form-material">
                   <div class="form-group">
-                    <label for="nama">Nama</label>
                     <input class="form-control" id="nama" name="nama" placeholder="Nama Pasien">
                   </div>
 
-                    <button type="submit" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40">Login</button>
+                    <div class="form-group">
+                        <input class="form-control form-control-line" id="alamat" name="alamat" placeholder="Alamat">
+                      </div>
+
+                      <label>Jenis Kelamin</label>
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" id="jk_laki_laki" name="jk" class="custom-control-input">
+                          <label class="custom-control-label" for="jk_laki_laki">Laki - Laki</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" id="jk_perempuan" name="jk" class="custom-control-input">
+                          <label class="custom-control-label" for="jk_perempuan">Perempuan</label>
+                        </div>
+                      </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-line" id="umur" name="umur" placeholder="Umur" type="number" min="0" max="100">
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-lg btn-rounded waves-effect waves-light m-b-40">Simpan</button>
                 </form>
             </div>
         </div>

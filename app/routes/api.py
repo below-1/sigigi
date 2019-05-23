@@ -128,8 +128,10 @@ def get_Gejala_Vcirs():
 
             gejala_id_set.add(gejala_id)
             gejala_id_list.append(gejala_id)
+    print('gejala_id_list')
+    print(gejala_id_list)
 
-    all_gejala = dbsession.query(Gejala).all()
+    all_gejala = dbsession.query(Gejala).filter_by(deleted=False).all()
     all_gejala_sorted = sorted(all_gejala, key=lambda gejala: gejala_id_list.index(gejala.id))
     gejala_dict = [ gejala.as_dict() for gejala in all_gejala_sorted ]
     response = Response(

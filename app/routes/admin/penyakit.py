@@ -16,7 +16,7 @@ PREFIX = '/diseases'
 @dbsession_required
 def list_penyakit():
     dbsession = g.get('dbsession')
-    data = dbsession.query(Penyakit).all()
+    data = dbsession.query(Penyakit).order_by(Penyakit.nama).all()
     return render_template('penyakit/list.html', data=data)
     pass
 
