@@ -76,6 +76,7 @@ def detail_user(id):
     list_penyakit = dbsession.query(Penyakit).all()
     record_penyakit_list = []
     for record in records:
+        print('record_meta', record.meta)
         penyakit_id = record.meta['penyakit_id']
         for penyakit in list_penyakit:
             if penyakit.id == penyakit_id:

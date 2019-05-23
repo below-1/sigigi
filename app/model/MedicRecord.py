@@ -4,6 +4,7 @@ from sqlalchemy import  Text
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.hybrid import hybrid_property
 from .base import Base
 import json
 
@@ -17,6 +18,12 @@ class MedicRecord(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     user = relationship("User", back_populates="records")
     list_gejala = relationship("GejalaMedicRecord", back_populates="medic_record", cascade="all, delete, delete-orphan")
+
+    @hybrid_property
+    def meta_dict(self):
+        if (isinstance(self.meta, str)):
+            return json.loads(self.meta)
+        return self.meta
 
     def as_dict(self):
         return {

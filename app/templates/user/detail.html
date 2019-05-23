@@ -62,7 +62,7 @@
                                         <h6>{{ record_penyakit_list[loop.index0].nama }}</h6>
                                     </td>
                                     <td>
-                                        <h6>{{ "{:.2%}".format(record.meta['believe']) }} %</h6>
+                                        <h6>{{ "{:.2%}".format(record.meta_dict['believe']) }} %</h6>
                                     </td>
                                     <td>
                                         <a href="/admin/users/{{data.id}}/record/detail/{{record.id}}" class="btn btn-info">
